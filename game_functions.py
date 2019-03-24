@@ -50,3 +50,11 @@ def check_keyup_events(event,ship):
         ship.moving_riht = False
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
+
+def update_bullets(bullets):
+    """更新子弹的位置，并删除已消失的子弹"""
+    bullets.update()
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            # 从副本里拿到超出屏幕子弹的索引，根据索引找到原列表，并移除！！
+            bullets.remove(bullet)

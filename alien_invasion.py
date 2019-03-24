@@ -20,15 +20,9 @@ def run_game():
     while True:
         #监视键盘和鼠标事件
         gf.check_events(ai_settings,screen,ship,bullets)
-        #更新飞船和子弹的位置
+        #更新飞船
         ship.undate()
-        bullets.update()
-
-        #删除已消失的子弹
-        for bullet in bullets.copy():
-            if  bullet.rect.bottom <= 0:
-            #从副本里拿到超出屏幕子弹的索引，根据索引找到原列表，并移除！！
-                bullets.remove(bullet)
+        gf.update_bullets(bullets)
         #绘制屏幕
         gf.update_screen(ai_settings,screen,ship,bullets)
 
