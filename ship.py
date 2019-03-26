@@ -19,7 +19,7 @@ class Ship():
         self.center = float(self.rect.centerx)
 
         #移动标志
-        self.moving_riht = False
+        self.moving_right = False
         self.moving_left = False
 
     def blitme(self):
@@ -29,7 +29,7 @@ class Ship():
     def undate(self):
         """根据移动标志调整飞船的位置
            更新飞船的center值，而不是rect"""
-        if self.moving_riht and self.rect.right < self.screen_rect.right:
+        if self.moving_right and self.rect.right < self.screen_rect.right:
             self.center += self.ai_settings.ship_speed_factor
         if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor

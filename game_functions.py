@@ -9,20 +9,13 @@ def check_events(ai_settings,screen,ship,bullets):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
                 sys.exit()
-
-
         # 根据按键按下和松开，左右移动飞船
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event,ai_settings,screen,ship,bullets)
-
-
+            check_keydown_events(event, ai_settings, screen, ship, bullets)
         elif event.type == pygame.KEYUP:
-            check_keyup_events(event,ship)
+            check_keyup_events(event, ship, ai_settings)
 
-
-
-
-def update_screen(ai_settings,screen,ship,bullets,aliens):
+def update_screen(ai_settings, screen, ship, bullets, aliens):
     """每次循环时都重绘屏幕"""
     screen.fill(ai_settings.bg_color)
     #在飞船和外星人后面重绘所有子弹
@@ -38,32 +31,43 @@ def update_screen(ai_settings,screen,ship,bullets,aliens):
 def check_keydown_events(event,ai_settings,screen,ship,bullets):
     """响应按键"""
     if event.key == pygame.K_RIGHT:
-        ship.moving_riht = True
+        ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
         # 创建一颗子弹，并将其加入到编组bullets中
-        fire_bullet(ai_settings,screen,ship,bullets)
+        # ai_settings.continue_fire = True
+        fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_ESCAPE:
         sys.exit()
 
-def check_keyup_events(event,ship):
+def check_keyup_events(event, ship, ai_settings):
     """响应松开"""
     if event.key == pygame.K_RIGHT:
-        ship.moving_riht = False
+        ship.moving_right = False
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
+    # elif event.key == pygame.K_SPACE:
+    #     ai_settings.continue_fire = False
 
-def update_bullets(aliens, bullets):
+def update_bullets(ai_settings, screen, ship, aliens, bullets):
     """更新子弹的位置，并删除已消失的子弹"""
+
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             # 从副本里拿到超出屏幕子弹的索引，根据索引找到原列表，并移除！！
             bullets.remove(bullet)
-        collisions = pygame.sprite.groupcollide(bullets, aliens, False, True)
+        check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets)
 
-def fire_bullet(ai_settings,screen,ship,bullets):
+def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets):
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if len(aliens) == 0:
+        # 删除现有的子弹并新建一群外星人
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
+
+def fire_bullet(ai_settings, screen, ship, bullets):
     """如果没有达到限制，就发射一颗子弹"""
     if len(bullets) < ai_settings.allowed:
         new_bullet = Bullet(ai_settings, screen, ship)
@@ -71,16 +75,16 @@ def fire_bullet(ai_settings,screen,ship,bullets):
 
 def create_fleet(ai_settings, screen, ship, aliens):
     """"创建外星人群"""
-    #创建一个外星人，并计算一行可容纳多少个外星人
-    #外星人间距为外星人的宽度
+    # 创建一个外星人，并计算一行可容纳多少个外星人
+    # 外星人间距为外星人的宽度
     alien = Alien(ai_settings,screen)
     alien_width = alien.rect.width
     number_aliens_x = get_number_aliens_x(ai_settings, alien_width)
     number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
-    #创建一行外星人
+    # 创建一行外星人
     for row_number in range(number_rows):
         for alien_number in range(number_aliens_x):
-        #创建一个外星人并将其加入当前行列
+        # 创建一个外星人并将其加入当前行列
             creat_alien(ai_settings,screen,aliens,alien_number,row_number)
 
 def get_number_aliens_x(ai_settings,alien_width):
@@ -104,10 +108,14 @@ def get_number_rows(ai_settings, ship_height, alien_height):
                          (3 * alien_height) - ship_height)
     number_rows =int(available_space_y/(2 * alien_height))
     return number_rows
-def update_aliens(ai_settings, aliens):
+def update_aliens(ai_settings, aliens, ship):
     """检查是否有外星人位于屏幕边缘，并更新整群外星人的位置"""
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
+
+    # 检测外星人和飞船之间的碰撞
+    if pygame.sprite.spritecollideany(ship, aliens):
+        print("Ship hit!!")
 
 def check_fleet_edges(ai_settings, aliens):
     """有外星人到达边缘时采取相应的措施"""
