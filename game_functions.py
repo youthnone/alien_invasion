@@ -36,7 +36,6 @@ def check_keydown_events(event,ai_settings,screen,ship,bullets):
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
         # 创建一颗子弹，并将其加入到编组bullets中
-        # ai_settings.continue_fire = True
         fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_ESCAPE:
         sys.exit()
@@ -47,8 +46,6 @@ def check_keyup_events(event, ship, ai_settings):
         ship.moving_right = False
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
-    # elif event.key == pygame.K_SPACE:
-    #     ai_settings.continue_fire = False
 
 def update_bullets(ai_settings, screen, ship, aliens, bullets):
     """更新子弹的位置，并删除已消失的子弹"""
