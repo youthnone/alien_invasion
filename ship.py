@@ -34,5 +34,9 @@ class Ship():
         if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor
 
-        #根据self.center更新rect对象
+        # 根据self.center更新rect对象
         self.rect.centerx = self.center
+
+    def center_ship(self):
+        """让飞船在屏幕上居中"""
+        self.center = self.screen_rect.centerx
