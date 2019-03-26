@@ -27,12 +27,13 @@ def run_game():
     while True:
         #监视键盘和鼠标事件
         gf.check_events(ai_settings,screen,ship,bullets)
-        #更新飞船
-        ship.undate()
-        if ai_settings.is_const_shoot:
-            gf.fire_bullet(ai_settings,screen,ship,bullets)
-        gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
-        gf.update_aliens(ai_settings, aliens, ship, stats, screen, bullets)
+        if stats.game_active:
+            # 更新飞船
+            ship.undate()
+            if ai_settings.is_const_shoot:
+                gf.fire_bullet(ai_settings,screen,ship,bullets)
+            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+            gf.update_aliens(ai_settings, aliens, ship, stats, screen, bullets)
         #绘制屏幕
         gf.update_screen(ai_settings,screen,ship,bullets,aliens)
 

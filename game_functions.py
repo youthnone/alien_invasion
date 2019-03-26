@@ -25,7 +25,6 @@ def update_screen(ai_settings, screen, ship, bullets, aliens):
     ship.blitme()
     aliens.draw(screen)
 
-
     # 让最近绘制的屏幕可见,即重绘屏幕
     pygame.display.flip()
 
@@ -149,7 +148,6 @@ def ship_hit(ai_settings, aliens, ship, stats, screen, bullets):
         ship.center_ship()
         # 暂停
         sleep(0.5)
-
     else:
         stats.game_active = False
 
