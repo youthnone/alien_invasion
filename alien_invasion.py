@@ -39,7 +39,7 @@ def run_game():
             if ai_settings.is_const_shoot:
                 gf.fire_bullet(ai_settings,screen,ship,bullets)
             gf.update_bullets(ai_settings, screen, ship, aliens, bullets,stats,sb)
-            gf.update_aliens(ai_settings, aliens, ship, stats, screen, bullets)
+            gf.update_aliens(ai_settings, aliens, ship, stats, screen, bullets, sb)
         #绘制屏幕
         gf.update_screen(ai_settings,screen,ship,bullets,aliens, stats, play_button,sb)
 
