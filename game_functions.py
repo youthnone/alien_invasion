@@ -5,7 +5,7 @@ from bullet import Bullet
 from alien import Alien
 from time import sleep
 
-def check_events(ai_settings, screen, ship, bullets, stats, play_button,aliens):
+def check_events(ai_settings, screen, ship, bullets, stats, play_button,aliens,sb):
     """监视键盘和鼠标事件"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -17,7 +17,7 @@ def check_events(ai_settings, screen, ship, bullets, stats, play_button,aliens):
             check_keyup_events(event, ship, ai_settings)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings, screen, aliens, bullets, stats, ship, play_button, mouse_x, mouse_y)
+            check_play_button(ai_settings, screen, aliens, bullets, stats, ship, play_button, mouse_x, mouse_y, sb)
 
 def update_screen(ai_settings, screen, ship, bullets, aliens, stats, play_button, sb):
     """每次循环时都重绘屏幕"""
