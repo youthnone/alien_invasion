@@ -14,7 +14,8 @@ class Scoreboard():
 
         # 显示得分信息时使用的字体设置
         self.text_color = (30, 30, 30)
-        self.font = pygame.font.SysFont(None, 48)
+        self.font = pygame.font.SysFont('arial', 36)
+        # 此处字体设置，原本为NONE，打包成EXE，系统会无法找到，所以改成arial
 
         # 准备初始得分图像
         self.prep_score()

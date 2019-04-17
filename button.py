@@ -10,7 +10,8 @@ class Button():
         self.width, self.height = 200,50
         self.button_color = (0, 255, 0)
         self.text_color = (255, 255, 255)
-        self.font = pygame.font.SysFont(None, 48)
+        self.font = pygame.font.SysFont('arial', 36)
+        # 此处字体设置，原本为NONE，打包成EXE，系统会无法找到，所以改成arial
 
         # 创建按钮的rect对象，并使其居中
         self.rect = pygame.Rect(0, 0, self.width, self.height)
